@@ -43,8 +43,9 @@ def rotate_pix(xpix, ypix, yaw):
     # TODO:
     # Convert yaw to radians
     # Apply a rotation
-    xpix_rotated = 0
-    ypix_rotated = 0
+    yaw_rad = yaw * np.pi / 180
+    xpix_rotated = xpix * np.cos(yaw_rad) - ypix * np.sin(yaw_rad)
+    ypix_rotated = xpix * np.sin(yaw_rad) + ypix * np.cos(yaw_rad)
     # Return the result  
     return xpix_rotated, ypix_rotated
 
