@@ -4,7 +4,7 @@ import cv2
 
 # Identify pixels above the threshold
 # Threshold of RGB > 160 does a nice job of identifying ground pixels only
-def color_thresh(img, lower_rgb_thresh=(170, 170, 170), upper_rgb_thresh=(255,255,255)):
+def color_thresh(img, lower_rgb_thresh=(160, 160, 160), upper_rgb_thresh=(255,255,255)):
     # Create an array of zeros same xy size as img, but single channel
     color_select = np.zeros_like(img[:,:,0])
     # Require that each pixel be above all three threshold values in RGB
@@ -83,27 +83,16 @@ def perspect_transform(img, src, dst):
     
     return warped
 
-# Define a function to return the polar coordinates for just a 30 degree field of view
-def narrow_view(dist, angles):
-    narrow_dist = []
-    narrow_angles = []
-    lower_thresh = 15 * np.pi / 180
-    upper_thresh = 345 * np.pi / 180
-    for angle, distance in zip(angles, dist):
-        if angle < lower_thresh or angle > upper_thresh:
-            narrow_angles.append(angle)
-            narrow_dist.append(distance)
-    return narrow_dist, narrow_angles
 
 # Apply the above functions in succession and update the Rover state accordingly
 def perception_step(Rover):
     # Perform perception steps to update Rover()
     # TODO: 
     # NOTE: camera image is coming to you in Rover.img
-    lower_navigable_thresh = (175, 175, 175)
+    lower_navigable_thresh = (170, 170, 170)
     upper_navigable_thresh = (255,255,255)
     lower_rock_thresh = (90, 90, 0) 
-    upper_rock_thresh = (165, 165, 75)
+    upper_rock_thresh = (165, 165, 70)
     lower_obs_thresh = (0,0,0)
     upper_obs_thresh = (100,100,100)
 
@@ -161,7 +150,5 @@ def perception_step(Rover):
         # Rover.nav_dists = rover_centric_pixel_distances
         # Rover.nav_angles = rover_centric_angles
     Rover.nav_dists, Rover.nav_angles = to_polar_coords(xpix_rover_nav, ypix_rover_nav)
-
-    Rover.narrow_dists, Rover.narrow_angles = narrow_view(Rover.nav_dists, Rover.nav_angles)
 
     return Rover

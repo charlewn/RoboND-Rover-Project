@@ -4,3 +4,8 @@ code/folder/*.jpg
 *.pyc
 *.pyc
 *.jpg
+code/submit.zip
+code/.DS_Store
+.DS_Store
+.DS_Store
+*.pyc
